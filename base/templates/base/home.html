@@ -11,49 +11,15 @@
 <h1>Home Template </h1>
 <div class="home-container">
     <div>
-        <h3>Browse topics</h3>
-        <div>
-            <a href="{% url 'home' %}">ALL</a>
-        </div>
-        {% for topic in topics%}
-        <div>
-            <a href="{% url 'home'%}?q={{topic.name}}">{{topic.name}}</a>
-        </div>
-        {% endfor %}
+        {% include 'base/topics_component.html' %}
     </div>
     <div>
         <h5>{{room_count}} Available </h5>
         <a href="{% url 'create-room' %}">Create Room</a>
-        
-        {% for room in rooms %}
-        <div>
-            {% if request.user == room.host %}
-            <small><a href="{% url 'update-room' room.id %}">EDIT</a></small>
-            <small><a href="{% url 'delete-room' room.id %}">DELETE</a></small>
-            <br>
-            {% endif %}
-            <small>@{{room.host.username}}</small>  
-            <h5><a href="{% url 'room' room.id %}">{{room.id}} -- {{room.name}}</a> </h5>
-            <small>{{room.topic}}</small>
-            
-            <hr>
-        </div>
-        {% endfor %}
+        {% include 'base/feed_component.html' %}
     </div>
     <div>
-        <h3>Recent activites</h3>
-        <hr>
-        {% for message in room_messages%}
-            {% if request.user == message.user %}
-            <small><a href="{% url 'delete-message' message.id %}">Delete</a></small>
-            {% endif %}
-            <small>@{{message.user}}  {{message.created|timesince}} ago replied to {{message.room}}</small>
-           
-            <p>{{message.body}}</p>
-           
-            <hr>
-
-        {% endfor %}
+      {% include 'base/activity_component.html' %}
     </div>
 </div>
 
